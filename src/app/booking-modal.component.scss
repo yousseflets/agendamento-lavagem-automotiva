@@ -1,0 +1,17 @@
+.modal-backdrop { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)); z-index:6000 }
+.modal { position:relative; z-index:6001; width:420px; background:#fff; border-radius:10px; padding:18px 20px; box-shadow:0 20px 60px rgba(2,12,26,0.6); border:1px solid rgba(0,0,0,0.06) }
+.modal-header { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #eef3f6; padding-bottom:8px }
+.modal-header h3 { margin:0; font-size:18px; color:#24323a }
+.modal-header .close { background:transparent; border:none; font-size:20px; cursor:pointer; color:#6b7780 }
+.modal form { display:flex; flex-direction:column; gap:10px; margin-top:12px }
+.modal label { display:flex; flex-direction:column; font-size:13px; color:#444 }
+.modal input, .modal select { padding:10px; border:1px solid #e3eef6; border-radius:6px; font-size:14px }
+.modal input:focus, .modal select:focus { outline:none; border-color:var(--primary); box-shadow:0 4px 18px rgba(20,74,110,0.08) }
+.modal .note{font-size:12px;color:#8d9aa7}
+.actions { display:flex; gap:8px; justify-content:space-between; align-items:center; margin-top:12px }
+.btn-primary { background:var(--accent); color:white; padding:12px 16px; border-radius:6px; border:none; width:100% }
+.btn-secondary { background:#f4f7f9; padding:10px 12px; border-radius:6px; border:1px solid #e6eef6 }
+.alert{padding:8px 10px;border-radius:6px;font-size:13px}
+.alert.success{background:#eaf7ef;color:#1b6c3a}
+.alert.error{background:#fdecea;color:#962b1c}
+.modal label small.error{color:#962b1c;margin-top:6px}

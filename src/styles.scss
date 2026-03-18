@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap');
+
+:root{
+	--primary: #154a6e;
+	--accent: #2e8b57;
+	--muted: #f1f4f7;
+	--header-height: 92px;
+	--footer-height: 92px;
+}
+
+html,body{height:100%;}
+body{
+	margin:0;
+	font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	-webkit-font-smoothing:antialiased;
+	background:#fff;
+	color:#222;
+}
+
+/* hero */
+.hero{
+	min-height:360px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	text-align:center;
+	background-image: linear-gradient(rgba(8,20,30,0.55), rgba(8,20,30,0.55)), url('/assets/home.png');
+	background-size:cover;
+	background-position:center top;
+	background-attachment: fixed; /* <-- aqui */
+	color:#fff;
+	min-height: calc(120vh - var(--footer-height));
+	padding-top: calc(var(--header-height) + 120px);
+}
+
+.hero h1{font-size:56px; margin:0 0 8px; font-weight:800; letter-spacing:0.5px}
+.hero p{margin:0 0 8px; opacity:0.95}
+
+.hero .service-cards{display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin-top:18px}
+
+/* service cards */
+.svc-card{
+	width:260px;
+	background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+	border-radius:8px;
+	padding:22px;
+	box-shadow:0 6px 20px rgba(3,10,18,0.35);
+	backdrop-filter: blur(2px);
+	cursor:pointer;
+	transition:transform .18s ease, box-shadow .18s ease;
+	color:#fff;
+}
+.svc-card:hover{transform:translateY(-8px); box-shadow:0 12px 30px rgba(3,10,18,0.5)}
+.svc-card h3{margin:0 0 6px; font-size:18px}
+.svc-card p{margin:0; opacity:0.85}
+
+/* center the modal container stacking above hero */
+.app-root{position:relative}
+
+/* small utilities */
+.container{max-width:1120px; margin:0 auto; width:100%;}
+
+/* toolbar */
+.toolbar{background:rgba(21, 74, 110, 0.087); color:#fff; backdrop-filter:blur(6px);}
+.toolbar{position:fixed;top:0;left:0;right:0;z-index:4000}
+.toolbar .toolbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1120px;margin:0 auto;min-height:64px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo-square{width:48px;height:48px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
+.logo-square img{height:34px;width:34px;object-fit:contain}
+.brand-title{font-weight:800;font-size:18px;color:#fff}
+.top-nav a{color:rgba(255,255,255,0.95);margin-left:22px;text-decoration:none;font-weight:600}
+.top-nav a:hover{text-decoration:underline}
+
+/* footer */
+.site-footer{background:var(--primary);color:#fff;padding:18px 0;position:fixed;left:0;right:0;bottom:0;border-top:6px solid rgba(0,0,0,0.06)}
+.site-footer .footer-inner{display:flex;align-items:center;justify-content:space-between;max-width:1120px;margin:0 auto;padding:0 16px}
+.site-footer a{color:rgba(255,255,255,0.9);margin-left:16px;text-decoration:none}
+.site-footer a:hover{text-decoration:underline}
+
+@media (max-width:768px){
+	.hero h1{font-size:32px}
+	.svc-card{width:100%;max-width:320px}
+	.site-footer .footer-inner{flex-direction:column;gap:8px;text-align:center}
+	.top-nav{display:none}
+}
+
+/* conteudo principal ocupa viewport menos header+footer */
+/* let main size naturally; hero covers viewport area */
+main.content{padding-top:0}
+body{padding-bottom:var(--footer-height)}
+
+/* esconder barra de rolagem visualmente (cross-browser) */
+html, body {
+	-ms-overflow-style: none; /* IE 10+ */
+	scrollbar-width: none; /* Firefox */
+}
+/* Chrome, Safari, Opera */
+body::-webkit-scrollbar { width: 0; height: 0 }
+
+/* ensure hero full-bleed under fixed header */
+/* ensure hero full-bleed under fixed header */
+.toolbar + main.content .hero{padding-top:0}
+

@@ -1,0 +1,48 @@
+<div class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Agendar Serviço - {{ serviceName }}</h3>
+      <button class="close" (click)="onClose()">✕</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="confirm()">
+      <label>Nome:
+        <input formControlName="name" />
+      </label>
+
+      <label>Telefone:
+          <input formControlName="phone" placeholder="(99) 99999-9999" (input)="onPhoneInput($event)" />
+          <small class="error" *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">Telefone inválido</small>
+        </label>
+
+      <label>E-mail:
+        <input formControlName="email" />
+      </label>
+
+      <label>Serviço:
+        <select formControlName="service">
+          <option [value]="serviceName">{{ serviceName }}</option>
+        </select>
+      </label>
+
+      <label>Data:
+        <input type="date" formControlName="date" />
+      </label>
+
+      <label>Horário:
+        <select formControlName="time">
+          <option value="" disabled>Selecione</option>
+          <option *ngFor="let t of availableTimes" [value]="t">{{ t }}</option>
+        </select>
+      </label>
+
+      <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
+
+      <div class="actions">
+        <button type="button" class="btn-secondary" (click)="onClose()" [disabled]="isSending">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="form.invalid || isSending">{{ isSending ? 'Enviando...' : 'Confirmar Agendamento' }}</button>
+      </div>
+    </form>
+  </div>
+</div>
