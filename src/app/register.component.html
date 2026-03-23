@@ -1,0 +1,40 @@
+<div class="hero login-hero">
+  <div class="container">
+    <div class="auth-card modern">
+      <div class="auth-brand">
+        <img src="/assets/logo.png" alt="Auto Lavagem" />
+        <h4>Crie sua conta e gerencie seus agendamentos</h4>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="field">
+          <label>Email</label>
+          <input formControlName="email" type="email" autocomplete="username" />
+          <div class="field-error" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+            <small *ngIf="form.get('email')?.errors?.['required']">Email é obrigatório.</small>
+            <small *ngIf="form.get('email')?.errors?.['email']">Informe um email válido.</small>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Senha (mín. 6 caracteres)</label>
+          <input formControlName="password" type="password" autocomplete="new-password" />
+          <div class="field-error" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+            <small *ngIf="form.get('password')?.errors?.['required']">Senha é obrigatória.</small>
+            <small *ngIf="form.get('password')?.errors?.['minlength']">Senha muito curta.</small>
+          </div>
+        </div>
+
+        <div class="error" *ngIf="error">{{ error }}</div>
+
+        <div class="actions">
+          <button class="btn-primary" type="submit" [disabled]="form.invalid">Criar conta</button>
+        </div>
+      </form>
+
+      <div class="meta">
+        <p>Já tem conta? <a routerLink="/login">Entrar</a></p>
+      </div>
+    </div>
+  </div>
+</div>

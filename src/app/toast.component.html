@@ -1,0 +1,6 @@
+<div class="toast-wrapper" aria-live="polite">
+  <div *ngFor="let m of messages" class="toast" [class.error]="m.type==='error'" [class.info]="m.type==='info'">
+    <div class="toast-text">{{ m.text }}</div>
+    <button class="toast-close" (click)="dismiss(m.id)">&times;</button>
+  </div>
+</div>

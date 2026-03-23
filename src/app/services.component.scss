@@ -5,7 +5,8 @@
 .svc-card{width:270px;border-radius:8px;overflow:hidden;cursor:pointer;box-shadow:0 8px 26px rgba(8,20,30,0.35);transition:transform .18s ease}
 .svc-card:hover{transform:translateY(-8px)}
 .card-top{background:#fff;padding:26px 20px;display:flex;align-items:center;justify-content:center}
-.card-top .icon{width:90px;height:60px;border-radius:6px;background:#f5f7fa;display:flex;align-items:center;justify-content:center}
+.card-top .icon{width:110px;height:80px;border-radius:8px;background:#f5f7fa;display:flex;align-items:center;justify-content:center}
+.card-top .icon img{max-width:190px;max-height:150px;object-fit:cover;border-radius:6px}
 .card-bottom{background:linear-gradient(180deg,var(--primary), #1b5c7a);color:#fff;padding:16px;text-align:center}
 .card-bottom h3{margin:0;font-size:18px;font-weight:700}
 .card-bottom p{margin:6px 0 0;opacity:0.9;font-size:13px}
@@ -17,3 +18,14 @@
 .cta-btn:hover{transform:translateY(-2px)}
 
 .small {font-size:10px;color:#8d9aa7;margin-top:6px}
+
+/* login prompt modal */
+.login-prompt {position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1200}
+.login-prompt-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.45)}
+.login-prompt-card{position:relative;background:#fff;padding:20px 22px;border-radius:8px;max-width:420px;width:92%;box-shadow:0 12px 40px rgba(2,6,23,0.5);text-align:center}
+.login-prompt-card h3{margin:0 0 8px}
+.login-prompt-card p{margin:0 0 16px;color:#334}
+.login-prompt-card .actions{display:flex;gap:10px;justify-content:center}
+.btn{padding:8px 14px;border-radius:6px;border:none;cursor:pointer}
+.btn.primary{background:var(--accent);color:#fff}
+.btn:hover{opacity:0.95}

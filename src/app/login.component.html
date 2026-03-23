@@ -1,0 +1,39 @@
+<div class="hero login-hero">
+  <div class="container">
+    <div class="auth-card modern">
+        <div class="auth-brand">
+          <img src="/assets/logo.png" alt="Auto Lavagem" />
+          <h4>Acesse sua conta para gerenciar agendamentos</h4>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="field">
+            <label>Email</label>
+            <input formControlName="email" type="email" autocomplete="username" />
+            <div class="field-error" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+              <small *ngIf="form.get('email')?.errors?.['required']">Email é obrigatório.</small>
+              <small *ngIf="form.get('email')?.errors?.['email']">Informe um email válido.</small>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Senha</label>
+            <input formControlName="password" type="password" autocomplete="current-password" />
+            <div class="field-error" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+              <small>Senha é obrigatória.</small>
+            </div>
+          </div>
+
+          <div class="error" *ngIf="error">{{ error }}</div>
+
+          <div class="actions">
+            <button class="btn-primary" type="submit" [disabled]="form.invalid">Entrar</button>
+          </div>
+        </form>
+
+        <div class="meta">
+          <p>Não tem conta? <a routerLink="/register">Registre-se</a></p>
+        </div>
+      </div>
+  </div>
+</div>

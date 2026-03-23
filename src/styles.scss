@@ -62,14 +62,25 @@ body{
 
 /* toolbar */
 .toolbar{background:rgba(21, 74, 110, 0.087); color:#fff; backdrop-filter:blur(6px);}
-.toolbar{position:fixed;top:0;left:0;right:0;z-index:4000}
+.toolbar{position:fixed;top:0;left:0;right:0;z-index:7000}
 .toolbar .toolbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1120px;margin:0 auto;min-height:64px}
-.brand{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px; text-decoration:none; cursor:pointer}
 .logo-square{width:48px;height:48px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
 .logo-square img{height:34px;width:34px;object-fit:contain}
 .brand-title{font-weight:800;font-size:18px;color:#fff}
+
+/* clickable brand accessibility */
+.brand:focus{ outline: 3px solid rgba(255,255,255,0.12); outline-offset:4px }
+.brand img{ vertical-align:middle }
 .top-nav a{color:rgba(255,255,255,0.95);margin-left:22px;text-decoration:none;font-weight:600}
 .top-nav a:hover{text-decoration:underline}
+.top-nav button{ margin-left:18px; background: rgba(255,255,255,0.92); color: var(--primary); border: none; padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:700 }
+.top-nav button:hover{ filter:brightness(0.98) }
+
+/* when on login page, keep header links white (card will use black title) */
+.toolbar.dark-links .top-nav a{ color: rgba(255,255,255,0.95) !important }
+.toolbar.dark-links .brand-title{ color: rgba(255,255,255,0.95) !important }
+.toolbar.dark-links{ background: rgba(21, 74, 110, 0.087) !important }
 
 /* footer */
 .site-footer{background:var(--primary);color:#fff;padding:18px 0;position:fixed;left:0;right:0;bottom:0;border-top:6px solid rgba(0,0,0,0.06)}

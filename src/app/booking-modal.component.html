@@ -6,18 +6,23 @@
     </div>
 
     <form [formGroup]="form" (ngSubmit)="confirm()">
-      <label>Nome:
-        <input formControlName="name" />
-      </label>
+      <div class="form-row">
+        <label class="col">Nome:
+          <input formControlName="name" [class.invalid]="form.get('name')?.touched && form.get('name')?.invalid" />
+          <div class="error-text" *ngIf="form.get('name')?.touched && form.get('name')?.hasError('required')">Nome é obrigatório</div>
+        </label>
 
-      <label>Telefone:
-          <input formControlName="phone" placeholder="(99) 99999-9999" (input)="onPhoneInput($event)" />
+        <label class="col">Telefone:
+          <input formControlName="phone" placeholder="(99) 99999-9999" (input)="onPhoneInput($event)" [class.invalid]="form.get('phone')?.touched && form.get('phone')?.invalid" />
           <small class="error" *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">Telefone inválido</small>
         </label>
 
-      <label>E-mail:
-        <input formControlName="email" />
-      </label>
+        <label class="col">E-mail:
+          <input formControlName="email" [class.invalid]="form.get('email')?.touched && form.get('email')?.invalid" />
+          <div class="error-text" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">E-mail é obrigatório</div>
+          <div class="error-text" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">E-mail inválido</div>
+        </label>
+      </div>
 
       <label>Serviço:
         <select formControlName="service">
@@ -25,24 +30,38 @@
         </select>
       </label>
 
+      <div class="field">
+        <label>Veículo (marca / modelo)
+          <input formControlName="vehicle" type="text" placeholder="Ex.: Toyota Corolla" [class.invalid]="form.get('vehicle')?.touched && form.get('vehicle')?.invalid" />
+          <div class="error-text" *ngIf="form.get('vehicle')?.touched && form.get('vehicle')?.hasError('required')">Informe a marca e o modelo do veículo</div>
+        </label>
+      </div>
+
       <label>Data:
-        <input type="date" formControlName="date" />
+        <input type="date" formControlName="date" [class.invalid]="form.get('date')?.touched && form.get('date')?.invalid" />
       </label>
+      <div class="error-text" *ngIf="form.get('date')?.touched && form.get('date')?.hasError('required')">Data é obrigatória</div>
 
       <label>Horário:
-        <select formControlName="time">
+        <select formControlName="time" [class.invalid]="form.get('time')?.touched && form.get('time')?.invalid">
           <option value="" disabled>Selecione</option>
           <option *ngFor="let t of availableTimes" [value]="t">{{ t }}</option>
         </select>
       </label>
+      <div class="error-text" *ngIf="form.get('time')?.touched && form.get('time')?.hasError('required')">Horário é obrigatório</div>
 
       <div *ngIf="successMessage" class="alert success">{{ successMessage }}</div>
       <div *ngIf="errorMessage" class="alert error">{{ errorMessage }}</div>
 
       <div class="actions">
         <button type="button" class="btn-secondary" (click)="onClose()" [disabled]="isSending">Cancelar</button>
-        <button type="submit" class="btn-primary" [disabled]="form.invalid || isSending">{{ isSending ? 'Enviando...' : 'Confirmar Agendamento' }}</button>
+        <button type="submit" class="btn-primary" [class.loading]="isSending" [disabled]="isSending">
+          <span class="spinner" *ngIf="isSending" aria-hidden="true"></span>
+          <span class="btn-text default-text" [class.hidden]="isSending">Confirmar Agendamento</span>
+          <span class="btn-text loading-text" *ngIf="isSending">Enviando...</span>
+        </button>
       </div>
+
     </form>
   </div>
 </div>

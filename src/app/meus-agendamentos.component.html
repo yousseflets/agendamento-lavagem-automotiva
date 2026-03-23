@@ -1,0 +1,92 @@
+<div class="hero bookings-hero">
+  <div class="bookings-page container">
+  <div class="page-card">
+    <div class="card-header">
+      <div class="title">
+        <img src="/assets/logo.png" alt="icon" />
+        <div>
+          <h2>Meus Agendamentos</h2>
+          <div class="subtitle">Gerencie e cancele seus agendamentos com facilidade</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-ghost" *ngIf="false">Novo agendamento</button>
+      </div>
+    </div>
+
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div *ngIf="bookings.length === 0" class="empty">
+      Nenhum agendamento encontrado.
+      <div class="claim-area" *ngIf="auth.isLoggedIn()">
+        <p>Você tem agendamentos feitos sem login? Associe agendamentos ao seu usuário para gerenciá-los.</p>
+        <button class="btn-primary" (click)="claim()">Associar agendamentos ao meu e-mail</button>
+      </div>
+    </div>
+
+    <div class="bookings-list">
+      <div class="booking" *ngFor="let b of bookings">
+          <div class="booking-main">
+            <div *ngIf="!b.editing" class="booking-info">
+              <div class="booking-top">
+                <div class="booking-title">{{ b.service }}</div>
+              </div>
+
+              <div class="booking-details">
+                <div class="detail">
+                  <span class="d-icon">📅</span>
+                  <span class="d-text">{{ b.date | date:'dd-MM-yyyy' }}</span>
+                  <span class="d-sep">•</span>
+                  <span class="d-icon">⏰</span>
+                  <span class="d-text">{{ b.time }}</span>
+                </div>
+
+                <div class="detail contact">
+                  <span class="d-icon">👤</span>
+                  <span class="d-text">{{ b.name }}</span>
+                  <span class="d-sep">•</span>
+                  <span class="d-icon">📞</span>
+                  <span class="d-text">{{ b.phone }}</span>
+                  <span class="d-sep">•</span>
+                  <span class="d-icon">✉️</span>
+                  <span class="d-text">{{ b.email }}</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="b.editing" class="edit-form">
+              <label>Data <input type="date" [(ngModel)]="b._editDate" /></label>
+              <label>Hora <input type="time" [(ngModel)]="b._editTime" /></label>
+              <label>Serviço <input type="text" [(ngModel)]="b._editService" /></label>
+            </div>
+          </div>
+          <div class="booking-side">
+            <div class="status" [ngClass]="{ 'status--active': b.status === 'active', 'status--cancelled': b.status !== 'active' }">
+              {{ b.status === 'active' ? 'Agendado' : 'Cancelado' }}
+            </div>
+
+            <div *ngIf="!b.editing" class="actions">
+              <button class="btn-pill btn-edit" *ngIf="b.status === 'active'" (click)="startEdit(b)" aria-label="Editar">
+                <span class="icon">✏️</span>
+                <span class="pill-label">Editar</span>
+              </button>
+              <button class="btn-pill btn-danger" *ngIf="b.cancel_token && b.status === 'active'" (click)="cancel(b)" aria-label="Cancelar">
+                <span class="icon">❌</span>
+                <span class="pill-label">Cancelar</span>
+              </button>
+            </div>
+
+            <div *ngIf="b.editing" class="actions">
+              <button class="btn-ghost btn-icon" (click)="cancelEdit(b)" aria-label="Cancelar edição">
+                <span class="icon">↩️</span>
+                <span class="label">Cancelar</span>
+              </button>
+              <button class="btn-primary btn-icon" (click)="saveEdit(b)" aria-label="Salvar">
+                <span class="icon">💾</span>
+                <span class="label">Salvar</span>
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

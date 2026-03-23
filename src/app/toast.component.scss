@@ -1,0 +1,8 @@
+.toast-wrapper{ position:fixed; right:16px; top:92px; z-index:6000; display:flex; flex-direction:column; gap:10px }
+.toast{ min-width:240px; max-width:360px; background: #0f1724; color:#fff; padding:12px 14px; border-radius:8px; box-shadow:0 8px 26px rgba(2,12,26,0.5); display:flex; align-items:center; justify-content:space-between; gap:12px }
+.toast.error{ background: #7a1f1f }
+.toast.info{ background: #12527a }
+.toast-text{ flex:1; margin-right:8px; font-size:14px }
+.toast-close{ background:transparent;border:0;color:rgba(255,255,255,0.85);font-size:18px;cursor:pointer }
+
+@media (max-width:520px){ .toast-wrapper{ left:8px; right:8px; top:72px } .toast{ width:100% } }

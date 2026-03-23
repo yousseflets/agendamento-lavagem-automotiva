@@ -7,7 +7,7 @@
       <div class="svc-card" *ngFor="let s of services" (click)="openModal(s)">
         <div class="card-top">
           <div class="icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11h18" stroke="#2b5c7a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 11v6" stroke="#2b5c7a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 11v6" stroke="#2b5c7a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <img [src]="s.image" [alt]="s.title" />
           </div>
         </div>
         <div class="card-bottom">
@@ -25,3 +25,16 @@
   (close)="closeModal()"
   (booked)="onBooked()">
 </app-booking-modal>
+
+<!-- Login prompt modal shown when attempting to book while not authenticated -->
+<div class="login-prompt" *ngIf="showLoginPrompt">
+  <div class="login-prompt-backdrop" (click)="closeLoginPrompt()"></div>
+  <div class="login-prompt-card">
+    <h3>Faça login</h3>
+    <p>Você precisa estar logado para agendar. Faça login ou registre-se para continuar.</p>
+    <div class="actions">
+      <button class="btn primary" (click)="goToLogin()">Ir para Login</button>
+      <button class="btn" (click)="closeLoginPrompt()">Cancelar</button>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookingService, Booking } from './booking.service';
+import { AuthService } from './auth.service';
+import { Router, NavigationStart } from '@angular/router';
 import { environment } from '../environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-booking-modal',
@@ -24,13 +27,16 @@ export class BookingModalComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private bookingService: BookingService) {
+  private routerSub?: Subscription;
+
+  constructor(private fb: FormBuilder, private bookingService: BookingService, private auth: AuthService, private router: Router) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\)\s?\d{4,5}-\d{4}$/)]],
       email: ['', [Validators.required, Validators.email]],
       service: [''],
       date: [this.today(), Validators.required],
+      vehicle: ['', Validators.required],
       time: ['', Validators.required]
     });
   }
@@ -39,6 +45,16 @@ export class BookingModalComponent implements OnInit {
     this.form.get('service')?.setValue(this.serviceName);
     this.updateAvailableTimes();
     this.form.get('date')?.valueChanges.subscribe(() => this.updateAvailableTimes());
+    // close modal automatically when navigation starts to avoid blocking UI
+    this.routerSub = this.router.events.subscribe(e => {
+      if (e instanceof NavigationStart) {
+        this.onClose();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.routerSub) this.routerSub.unsubscribe();
   }
 
   today(): string {
@@ -49,6 +65,17 @@ export class BookingModalComponent implements OnInit {
   updateAvailableTimes() {
     const date = this.form.get('date')?.value;
     this.availableTimes = this.times.filter(t => !this.bookingService.isTimeTaken(date, t));
+    // If selected date is today, hide times that are too close to now.
+    // Policy: allow bookings starting from (current hour + 2) to give a 2-hour buffer.
+    const todayStr = this.today();
+    if (date === todayStr) {
+      const now = new Date();
+      const minHour = now.getHours() + 2;
+      this.availableTimes = this.availableTimes.filter(t => {
+        const hour = parseInt(t.split(':')[0], 10);
+        return hour >= minHour && hour >= 0 && hour <= 23;
+      });
+    }
     const selected = this.form.get('time')?.value;
     if (selected && !this.availableTimes.includes(selected)) {
       this.form.get('time')?.setValue('');
@@ -58,8 +85,19 @@ export class BookingModalComponent implements OnInit {
   confirm() {
     this.successMessage = '';
     this.errorMessage = '';
+    // show immediate feedback while validating
+    this.isSending = true;
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.isSending = false;
+      return;
+    }
+
+    if (!this.auth.isLoggedIn()) {
+      // redirect to login and require authentication before booking
+      this.isSending = false;
+      this.router.navigate(['/login'], { queryParams: { returnUrl: window.location.pathname } });
       return;
     }
 
@@ -69,16 +107,16 @@ export class BookingModalComponent implements OnInit {
       email: this.form.get('email')?.value,
       service: this.form.get('service')?.value,
       date: this.form.get('date')?.value,
-      time: this.form.get('time')?.value
+      time: this.form.get('time')?.value,
+      vehicle: this.form.get('vehicle')?.value
     };
 
     // persist locally (garante bloqueio imediato)
     this.bookingService.saveBooking(booking);
 
     // enviar email
-    this.isSending = true;
     this.bookingService.sendEmail(booking, this.emailConfig).subscribe({
-      next: () => {
+      next: (res) => {
         this.isSending = false;
         this.successMessage = 'Agendamento confirmado e notificação enviada por e-mail.';
         this.booked.emit();
